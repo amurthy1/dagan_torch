@@ -306,3 +306,8 @@ class Generator(nn.Module):
         for i in range(self.num_final_conv):
             curr_input = self._modules["final_conv%d" % i](curr_input)
         return self.tanh(curr_input)
+
+    def sample(self, input_images):
+        batch_size = input_images.shape[0]
+        z = torch.randn((batch_size, self.z_dim))
+        return self.forward(input_images, z)
