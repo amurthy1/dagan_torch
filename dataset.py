@@ -13,7 +13,7 @@ class OmniglotDataset(Dataset):
             transform (callable, optional): Optional transform to be applied
                 on a sample.
         """
-        assert(len(x1_examples) == len(x2_examples))
+        assert len(x1_examples) == len(x2_examples)
         self.x1_examples = x1_examples
         self.x2_examples = x2_examples
         self.transform = transform
@@ -22,7 +22,10 @@ class OmniglotDataset(Dataset):
         return len(self.x1_examples)
 
     def __getitem__(self, idx):
-        return self.transform(self.x1_examples[idx]), self.transform(self.x2_examples[idx])
+        return (
+            self.transform(self.x1_examples[idx]),
+            self.transform(self.x2_examples[idx]),
+        )
 
 
 def create_dataloader(raw_data, num_classes, transform, batch_size):

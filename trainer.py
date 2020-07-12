@@ -8,17 +8,27 @@ from torch.autograd import Variable
 from torch.autograd import grad as torch_grad
 
 
-class Trainer():
-    def __init__(self, generator, discriminator, gen_optimizer, dis_optimizer, batch_size, device="cpu",
-                 gp_weight=10, critic_iterations=5, print_every=50,
-                 val_images=None):
+class Trainer:
+    def __init__(
+        self,
+        generator,
+        discriminator,
+        gen_optimizer,
+        dis_optimizer,
+        batch_size,
+        device="cpu",
+        gp_weight=10,
+        critic_iterations=5,
+        print_every=50,
+        val_images=None,
+    ):
         self.device = device
         self.g = generator.to(device)
         self.g_opt = gen_optimizer
         self.d = discriminator.to(device)
         self.d_opt = dis_optimizer
         self.batch_size = batch_size
-        self.losses = {'G': [], 'D': [], 'GP': [], 'gradient_norm': []}
+        self.losses = {"G": [], "D": [], "GP": [], "gradient_norm": []}
         self.num_steps = 0
         self.gp_weight = gp_weight
         self.critic_iterations = critic_iterations
@@ -39,7 +49,7 @@ class Trainer():
 
         # Get gradient penalty
         gradient_penalty = self._gradient_penalty(x1, x2, generated_data)
-        self.losses['GP'].append(gradient_penalty.item())
+        self.losses["GP"].append(gradient_penalty.item())
 
         # Create total loss and optimize
         self.d_opt.zero_grad()
@@ -49,7 +59,7 @@ class Trainer():
         self.d_opt.step()
 
         # Record loss
-        self.losses['D'].append(d_loss.item())
+        self.losses["D"].append(d_loss.item())
 
     def _generator_train_iteration(self, x1):
         """ """
@@ -60,13 +70,13 @@ class Trainer():
 
         # Calculate loss and optimize
         d_generated = self.d(torch.cat([x1, generated_data], 1))
-        g_loss = - d_generated.mean()
+        g_loss = -d_generated.mean()
         print(g_loss)
         g_loss.backward()
         self.g_opt.step()
 
         # Record loss
-        self.losses['G'].append(g_loss.item())
+        self.losses["G"].append(g_loss.item())
 
     def _gradient_penalty(self, x1, x2, generated_data):
         # Calculate interpolation
@@ -83,14 +93,18 @@ class Trainer():
         prob_interpolated = self.d(torch.cat([x1, interpolated], 1))
 
         # Calculate gradients of probabilities with respect to examples
-        gradients = torch_grad(outputs=prob_interpolated, inputs=interpolated,
-                                grad_outputs=torch.ones(prob_interpolated.size()).to(self.device),
-                                create_graph=True, retain_graph=True)[0]
+        gradients = torch_grad(
+            outputs=prob_interpolated,
+            inputs=interpolated,
+            grad_outputs=torch.ones(prob_interpolated.size()).to(self.device),
+            create_graph=True,
+            retain_graph=True,
+        )[0]
 
         # Gradients have shape (batch_size, num_channels, img_width, img_height),
         # so flatten to easily take norm per example in batch
         gradients = gradients.view(self.batch_size, -1)
-        self.losses['gradient_norm'].append(gradients.norm(2, dim=1).mean().item())
+        self.losses["gradient_norm"].append(gradients.norm(2, dim=1).mean().item())
 
         # Derivatives of the gradient close to 0 can cause problems because of
         # the square root, so manually calculate norm and add epsilon
@@ -110,12 +124,11 @@ class Trainer():
 
             if i % self.print_every == 0:
                 print("Iteration {}".format(i + 1))
-                print("D: {}".format(self.losses['D'][-1]))
-                print("GP: {}".format(self.losses['GP'][-1]))
-                print("Gradient norm: {}".format(self.losses['gradient_norm'][-1]))
+                print("D: {}".format(self.losses["D"][-1]))
+                print("GP: {}".format(self.losses["GP"][-1]))
+                print("Gradient norm: {}".format(self.losses["gradient_norm"][-1]))
                 if self.num_steps > self.critic_iterations:
-                    print("G: {}".format(self.losses['G'][-1]))
-                
+                    print("G: {}".format(self.losses["G"][-1]))
 
     def train(self, data_loader, epochs, save_training_gif=True):
         # if save_training_gif:
@@ -137,8 +150,8 @@ class Trainer():
             self.save_checkpoints(epoch)
 
             # if save_training_gif:
-            #    
-             # Generate batch of images and convert to grid
+            #
+            # Generate batch of images and convert to grid
             #     img_grid = make_grid(self.g(fixed_latents).cpu().data)
             #     # Convert to numpy and transpose axes to fit imageio convention
             #     # i.e. (width, height, channels)
@@ -161,7 +174,7 @@ class Trainer():
     def save_img(self, arr, filename):
         arr = (arr * 0.5) + 0.5
         arr = np.uint8(arr * 255)
-        Image.fromarray(arr, mode='L').save(filename)
+        Image.fromarray(arr, mode="L").save(filename)
 
     def display_generations(self, data_loader, num_generations):
         train_idx = torch.randint(0, len(data_loader.dataset), (1,))[0]

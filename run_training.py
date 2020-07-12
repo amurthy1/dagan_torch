@@ -8,6 +8,13 @@ import torch.optim as optim
 import numpy as np
 
 
+# To maintain reproducibility
+torch.manual_seed(0)
+np.random.seed(0)
+
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+
 raw_data = np.load("datasets/omniglot_data.npy")
 
 in_channels = raw_data.shape[-1]
@@ -20,14 +27,16 @@ epochs = 200
 g = Generator(dim=img_size, channels=in_channels)
 d = create_d(in_channels=in_channels)
 
-train_transform = transforms.Compose([
-     transforms.ToPILImage(),
-     transforms.RandomHorizontalFlip(),
-     transforms.Resize(img_size),
-     transforms.RandomAffine([-10, 10], translate=[0.2, 0.2]),
-     transforms.ToTensor(),
-     transforms.Normalize((0.5), (0.5))
-])
+train_transform = transforms.Compose(
+    [
+        transforms.ToPILImage(),
+        transforms.RandomHorizontalFlip(),
+        transforms.Resize(img_size),
+        transforms.RandomAffine([-10, 10], translate=[0.2, 0.2]),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5), (0.5)),
+    ]
+)
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 train_dataloader = create_dataloader(raw_data, num_classes, train_transform, batch_size)
