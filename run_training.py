@@ -34,7 +34,7 @@ train_transform = transforms.Compose(
         transforms.Resize(img_size),
         transforms.RandomAffine([-10, 10], translate=[0.2, 0.2]),
         transforms.ToTensor(),
-        transforms.Normalize((0.5), (0.5)),
+        transforms.Normalize((0.5,), (0.5,)),
     ]
 )
 
