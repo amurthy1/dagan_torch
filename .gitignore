@@ -1,5 +1,6 @@
 datasets/*
-!datasets/readme.txt
+checkpoints/*
+!*readme.txt
 *.DS_Store
 .ipynb_checkpoints*
 __pycache__*
