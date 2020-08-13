@@ -44,8 +44,8 @@ class Trainer:
         # data = Variable(data)
         # if self.use_cuda:
         #     data = data.cuda()
-        d_real = self.d(torch.cat([x1, x2], 1))
-        d_generated = self.d(torch.cat([x1, generated_data], 1))
+        d_real = self.d(x1, x2)
+        d_generated = self.d(x1, generated_data)
 
         # Get gradient penalty
         gradient_penalty = self._gradient_penalty(x1, x2, generated_data)
@@ -69,7 +69,7 @@ class Trainer:
         generated_data = self.sample_generator(x1)
 
         # Calculate loss and optimize
-        d_generated = self.d(torch.cat([x1, generated_data], 1))
+        d_generated = self.d(x1, generated_data)
         g_loss = -d_generated.mean()
         print(g_loss)
         g_loss.backward()
@@ -90,7 +90,7 @@ class Trainer:
         #     interpolated = interpolated.cuda()
 
         # Calculate probability of interpolated examples
-        prob_interpolated = self.d(torch.cat([x1, interpolated], 1))
+        prob_interpolated = self.d(x1, interpolated)
 
         # Calculate gradients of probabilities with respect to examples
         gradients = torch_grad(

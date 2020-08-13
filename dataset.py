@@ -22,9 +22,11 @@ class OmniglotDataset(Dataset):
         return len(self.x1_examples)
 
     def __getitem__(self, idx):
+        x1 = self.transform(self.x1_examples[idx])
+        x2 = self.transform(self.x2_examples[idx])
         return (
-            self.transform(self.x1_examples[idx]),
-            self.transform(self.x2_examples[idx]),
+            self.transform(x1),
+            self.transform(x2),
         )
 
 

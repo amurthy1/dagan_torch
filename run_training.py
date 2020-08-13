@@ -1,5 +1,5 @@
 from trainer import Trainer
-from discriminator import create_d
+from discriminator import Discriminator
 from generator import Generator
 from dataset import OmniglotDataset, create_dataloader
 import torchvision.transforms as transforms
@@ -19,13 +19,14 @@ raw_data = np.load("datasets/omniglot_data.npy")
 
 in_channels = raw_data.shape[-1]
 dim = raw_data.shape[1]
-img_size = 64
+img_size = 28
 num_classes = 1200
 batch_size = 32
 epochs = 200
+dropout_rate = 0.5
 
-g = Generator(dim=img_size, channels=in_channels)
-d = create_d(in_channels=in_channels)
+g = Generator(dim=img_size, channels=in_channels, dropout_rate=dropout_rate)
+d = Discriminator(dim=img_size, channels=in_channels * 2, dropout_rate=dropout_rate)
 
 train_transform = transforms.Compose(
     [
