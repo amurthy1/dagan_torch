@@ -12,7 +12,7 @@ import PIL
 import warnings
 
 
-class Trainer:
+class DaganTrainer:
     def __init__(
         self,
         generator,

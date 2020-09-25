@@ -1,4 +1,4 @@
-from trainer import Trainer
+from dagan_trainer import DaganTrainer
 from discriminator import Discriminator
 from generator import Generator
 from dataset import create_dataloader
@@ -76,7 +76,7 @@ flat_val_data = val_data.reshape(
 
 display_transform = train_transform
 
-trainer = Trainer(
+trainer = DaganTrainer(
     generator=g,
     discriminator=d,
     gen_optimizer=g_opt,
