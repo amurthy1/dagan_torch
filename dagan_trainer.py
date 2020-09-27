@@ -45,13 +45,14 @@ class DaganTrainer:
         self.display_transform = display_transform or transforms.ToTensor()
         self.checkpoint_path = save_checkpoint_path
         self.should_display_generations = should_display_generations
-        if load_checkpoint_path:
-            self.hydrate_checkpoint(load_checkpoint_path)
 
         # Track progress of fixed images throughout the training
         self.tracking_images = None
         self.tracking_z = None
         self.tracking_images_gens = None
+
+        if load_checkpoint_path:
+            self.hydrate_checkpoint(load_checkpoint_path)
 
     def _critic_train_iteration(self, x1, x2):
         """ """

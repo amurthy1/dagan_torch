@@ -34,7 +34,7 @@ batch_size = args.batch_size
 epochs = args.epochs
 dropout_rate = args.dropout_rate
 max_pixel_value = args.max_pixel_value
-should_display_generations = not args.suppress_generations\
+should_display_generations = not args.suppress_generations
 
 # Input sanity checks
 final_generator_dir = os.path.dirname(final_generator_path) or os.getcwd()
