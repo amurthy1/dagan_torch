@@ -276,7 +276,7 @@ class DaganTrainer:
         torch.save(checkpoint, self.checkpoint_path)
 
     def hydrate_checkpoint(self, checkpoint_path):
-        checkpoint = torch.load(checkpoint_path)
+        checkpoint = torch.load(checkpoint_path, map_location=self.device)
         self.epoch = checkpoint["epoch"]
         self.num_steps = checkpoint["num_steps"]
 
