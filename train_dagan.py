@@ -43,8 +43,8 @@ if not os.access(final_generator_dir, os.W_OK):
 
 if num_training_classes + num_val_classes > raw_data.shape[0]:
     raise ValueError(
-        "Expected at least %d classes but only had %d." %
-        (num_training_classes + num_val_classes, raw_data.shape[0])
+        "Expected at least %d classes but only had %d."
+        % (num_training_classes + num_val_classes, raw_data.shape[0])
     )
 
 
@@ -57,7 +57,9 @@ train_transform = transforms.Compose(
         transforms.ToPILImage(),
         transforms.Resize(img_size),
         transforms.ToTensor(),
-        transforms.Normalize((mid_pixel_value,) * in_channels, (mid_pixel_value,) * in_channels),
+        transforms.Normalize(
+            (mid_pixel_value,) * in_channels, (mid_pixel_value,) * in_channels
+        ),
     ]
 )
 

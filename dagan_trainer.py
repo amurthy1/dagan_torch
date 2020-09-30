@@ -142,7 +142,7 @@ class DaganTrainer:
         #     if self.use_cuda:
         #         fixed_latents = fixed_latents.cuda()
         #     training_progress_images = []
-        if self.num_tracking_images > 0:
+        if self.tracking_images is None and self.num_tracking_images > 0:
             self.tracking_images = self.sample_val_images(
                 self.num_tracking_images // 2, val_images
             )
@@ -157,14 +157,18 @@ class DaganTrainer:
             )
             self.tracking_images_gens = []
 
+        # Save checkpoint once before training to catch errors
+        self._save_checkpoint()
+
         start_time = int(time.time())
+
         while self.epoch < epochs:
             print("\nEpoch {}".format(self.epoch))
             print(f"Elapsed time: {(time.time() - start_time) / 60:.2f} minutes\n")
-            # Save at beginning of training cycle to catch errors in saving earlier
-            self._save_checkpoint()
+
             self._train_epoch(data_loader, val_images)
             self.epoch += 1
+            self._save_checkpoint()
 
             # if save_training_gif:
             #
