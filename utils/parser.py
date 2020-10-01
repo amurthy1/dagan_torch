@@ -2,7 +2,10 @@ import argparse
 
 
 def get_dagan_args():
-    parser = argparse.ArgumentParser(description="Welcome to GAN-Shot-Learning script", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="Welcome to GAN-Shot-Learning script",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
         "dataset_path",
         type=str,
@@ -77,7 +80,7 @@ def get_dagan_args():
     )
     parser.add_argument(
         "--suppress_generations",
-        action='store_true',
+        action="store_true",
         help="If specified, does not show intermediate progress images.",
     )
     return parser.parse_args()
