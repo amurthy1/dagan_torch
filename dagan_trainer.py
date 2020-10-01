@@ -136,12 +136,6 @@ class DaganTrainer:
                 self._generator_train_iteration(x1)
 
     def train(self, data_loader, epochs, val_images=None, save_training_gif=True):
-        # if save_training_gif:
-        #     # Fix latents to see how image generation improves during training
-        #     fixed_latents = Variable(self.g.sample_latent(64))
-        #     if self.use_cuda:
-        #         fixed_latents = fixed_latents.cuda()
-        #     training_progress_images = []
         if self.tracking_images is None and self.num_tracking_images > 0:
             self.tracking_images = self.sample_val_images(
                 self.num_tracking_images // 2, val_images
@@ -170,27 +164,9 @@ class DaganTrainer:
             self.epoch += 1
             self._save_checkpoint()
 
-            # if save_training_gif:
-            #
-            # Generate batch of images and convert to grid
-            #     img_grid = make_grid(self.g(fixed_latents).cpu().data)
-            #     # Convert to numpy and transpose axes to fit imageio convention
-            #     # i.e. (width, height, channels)
-            #     img_grid = np.transpose(img_grid.numpy(), (1, 2, 0))
-            #     # Add image grid to training progress
-            #     training_progress_images.append(img_grid)
-
-        # if save_training_gif:
-        #     imageio.mimsave('./training_{}_epochs.gif'.format(epochs),
-        #                     training_progress_images)
-
     def sample_generator(self, input_images, z=None):
-        # input_images.to(self.device)
         if z is None:
             z = torch.randn((input_images.shape[0], self.g.z_dim)).to(self.device)
-        # latent_samples = Variable(self.g.sample_latent(num_samples))
-        # if self.use_cuda:
-        #     latent_samples = latent_samples.cuda()
         return self.g(input_images, z)
 
     def render_img(self, arr):
@@ -218,16 +194,6 @@ class DaganTrainer:
             ]
 
     def display_generations(self, data_loader, val_images):
-        # z1 = torch.randn((32, self.g.z_dim)).to(self.device)
-        # black = torch.tensor(np.ones((1, 1, img_size, img_size))).float().to(self.device)
-        # result = self.g(black, z1[:1]).cpu()
-        # print(result)
-        # self.render_img(result.cpu().reshape(-1, result.shape[-1]))
-
-        # black = torch.tensor(np.ones((32, 1, img_size, img_size))).float().to(self.device)
-        # for i in range(10):
-        #     self.g(black, z1)
-
         n = 5
         images = self.sample_train_images(n, data_loader) + self.sample_val_images(
             n, val_images
@@ -240,11 +206,6 @@ class DaganTrainer:
         inp = torch.stack(images).to(self.device)
         train_gen = self.g(inp, z).cpu()
         self.render_img(train_gen.reshape(-1, train_gen.shape[-1]))
-
-        # black = torch.tensor(np.ones((1, 1, img_size, img_size))).float().to(self.device)
-        # result = self.g(black, z1[:1]).cpu()
-        # print(result)
-        # self.render_img(result.cpu().reshape(-1, result.shape[-1]))
 
     def print_progress(self, data_loader, val_images):
         self.g.eval()
