@@ -1,7 +1,7 @@
 from dagan_trainer import DaganTrainer
 from discriminator import Discriminator
 from generator import Generator
-from dataset import create_dataloader
+from dataset import create_dagan_dataloader
 from utils.parser import get_dagan_args
 import torchvision.transforms as transforms
 import torch
@@ -64,7 +64,7 @@ train_transform = transforms.Compose(
 )
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-train_dataloader = create_dataloader(
+train_dataloader = create_dagan_dataloader(
     raw_data, num_training_classes, train_transform, batch_size
 )
 

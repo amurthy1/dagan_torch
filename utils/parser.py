@@ -3,7 +3,7 @@ import argparse
 
 def get_dagan_args():
     parser = argparse.ArgumentParser(
-        description="Welcome to GAN-Shot-Learning script",
+        description="Use this script to train a dagan.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -82,5 +82,91 @@ def get_dagan_args():
         "--suppress_generations",
         action="store_true",
         help="If specified, does not show intermediate progress images.",
+    )
+    return parser.parse_args()
+
+
+def get_omniglot_classifier_args():
+    parser = argparse.ArgumentParser(
+        description="Use this script to train an omniglot classifier "
+        "with and without augmentations to compare the results.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "generator_path",
+        type=str,
+        help="Filepath for dagan generator to use for augmentations.",
+    )
+    parser.add_argument(
+        "--dataset_path",
+        type=str,
+        default="datasets/omniglot_data.npy",
+        help="Filepath for omniglot data.",
+    )
+    parser.add_argument(
+        "--batch_size",
+        nargs="?",
+        type=int,
+        default=32,
+        help="batch_size for experiment",
+    )
+    parser.add_argument(
+        "--data_start_index",
+        nargs="?",
+        type=int,
+        default=1420,
+        help="Only uses classes after the given index for training. "
+        "Useful to isolate data that wasn't used during dagan training.",
+    )
+    parser.add_argument(
+        "--num_training_classes",
+        nargs="?",
+        type=int,
+        default=100,
+        help="Number of classes to use for training.",
+    )
+    parser.add_argument(
+        "--train_samples_per_class",
+        nargs="?",
+        type=int,
+        default=5,
+        help="Number of samples to use per class during training.",
+    )
+    parser.add_argument(
+        "--val_samples_per_class",
+        nargs="?",
+        type=int,
+        default=5,
+        help="Number of samples to use per class during validation.",
+    )
+    parser.add_argument(
+        "--epochs",
+        nargs="?",
+        type=int,
+        default=200,
+        help="Number of epochs to run training.",
+    )
+    parser.add_argument(
+        "--progress_frequency",
+        nargs="?",
+        type=int,
+        default=50,
+        help="Number of epochs between printing intermediate train/val loss.",
+    )
+    parser.add_argument(
+        "--generated_batches_per_real",
+        nargs="?",
+        type=int,
+        default=1,
+        help="Number of augmented batches per real batch during "
+        "augmented training phase.",
+    )
+    parser.add_argument(
+        "--num_bootstrap_samples",
+        nargs="?",
+        type=int,
+        default=10,
+        help="Number of classifiers to train with slightly different data "
+        "in order to get a more accuracy measurement.",
     )
     return parser.parse_args()

@@ -23,7 +23,7 @@ class DaganDataset(Dataset):
             )
 
 
-def create_dataloader(raw_data, num_classes, transform, batch_size):
+def create_dagan_dataloader(raw_data, num_classes, transform, batch_size):
     train_x1 = []
     train_x2 = []
 
