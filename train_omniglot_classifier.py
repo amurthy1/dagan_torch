@@ -94,7 +94,9 @@ for real_batch_rate in (1, generated_batches_per_real + 1):
                 )
 
         print("[%d] train loss: %.5f" % (num_epochs, training_loss))
-        val_accuracies.append(compute_val_accuracy(val_dataloader, classifier, device))
+        val_accuracies.append(
+            compute_val_accuracy(val_dataloader, classifier, device, loss_function)
+        )
 
         # Remove current net from gpu memory
         del classifier
