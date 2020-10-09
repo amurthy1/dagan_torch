@@ -150,7 +150,7 @@ def create_generated_batch(samples, generator, device="cpu"):
 
 
 def perform_train_step(
-    net, train_dataloader, optimizer, loss_function, device, real_batch_rate
+    net, train_dataloader, optimizer, loss_function, device, real_batch_rate, g
 ):
     """
     Perform one epoch of training using the full dataset.

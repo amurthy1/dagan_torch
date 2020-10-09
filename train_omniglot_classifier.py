@@ -45,8 +45,8 @@ raw_data = raw_data[data_start_index:]
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-g = torch.load(generator_path, map_location=device)
-g.eval()
+dagan_generator = torch.load(generator_path, map_location=device)
+dagan_generator.eval()
 
 loss_function = nn.CrossEntropyLoss()
 
@@ -82,6 +82,7 @@ for real_batch_rate in (1, generated_batches_per_real + 1):
                 loss_function,
                 device,
                 real_batch_rate,
+                dagan_generator,
             )
 
             if epoch % progress_frequency == 0:
