@@ -33,7 +33,15 @@ Standard data augmentation includes methods such as adding noise to, rotating, o
 
 To measure the quality of the DAGAN, classifiers were trained both with and without DAGAN augmentations to see if there was improvement in classifier accuracy with augmentations. The original paper showed improvement on the omniglot dataset using 5, 10, and 15 images per class to train the classifier. As expected, the fewer samples used, the more impactful the augmentations were.
 
-This PyTorch implementation showed statistically significant improvment on the omniglot dataset with 1-4 samples per class but had negligible gains with 5+ samples per class. Classifier accuracies and statistical significance of improvement can be found below (More details on confidence interval methodology [can be found below](#classifier_train)).
+This PyTorch implementation showed statistically significant improvment on the omniglot dataset with 1-4 samples per class but had negligible gains with 5+ samples per class. The below table shows the classifier accuracy with and without DAGAN augmentations as well as the statistical significance level that the augmentations are in fact better. (More details on confidence interval methodology [can be found here](#classifier_train)).
+
+
+| Samples per Class                            | 1     | 2     | 3     | 4     | 5     |
+|----------------------------------------------|-------|-------|-------|-------|-------|
+| <b>Acc. w/o DAGAN</b>                               | 16.4% | 29.0% | 46.5% | 57.8% | 67.1% |
+| <b>Acc. w/ DAGAN</b>                                | 19.2% | 39.4% | 52.0% | 65.3% | 69.5% |
+| <b>Confidence Level = (1 - p_value) from t-test</b> | 97.6% | 99.9% | 97.4% | 97.8% | 60.7% |
+
 
 ## 4. Training your own DAGAN <a name="train"></a>
 
@@ -50,7 +58,7 @@ Recall the procedure for training a traditional GAN:
   - Create 2 networks, a generator (G) and a discriminator (D)
   - To train D
     - Randomly sample images from G and train D to recognize as fake
-    - Randomly sample real images and train D to recognize as real
+    - Randomly sample real images and train D to recognize as real`
   - To train G
     - Sample images from G and pass them through D
     - Train/modify G to increase likelihood D classifies given samples as real
