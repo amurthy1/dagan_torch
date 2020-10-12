@@ -98,7 +98,7 @@ In a nutshell, the generator is a UNet of dense convolutional blocks. Each block
 
 The discriminator is a DenseNet with 4 blocks, each containing 4 conv layers.
 
-The omniglot classifier uses the [standard PyTorch DenseNet implementation] (https://pytorch.org/hub/pytorch_vision_densenet/) with 4 blocks, each having 3 conv layers.
+The omniglot classifier uses the [standard PyTorch DenseNet implementation](https://pytorch.org/hub/pytorch_vision_densenet/) with 4 blocks, each having 3 conv layers.
 
 
 ## 6. Acknowledgements <a name="acknowledgements"></a>
