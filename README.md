@@ -19,9 +19,9 @@
 
 ## 1. Intro <a name="intro"></a>
 
-This is a PyTorch implementation of Data Augmentation GAN (DAGAN), which was first proposed in [this paper](https://arxiv.org/abs/1711.04340) with a [corresponding tensorflow implementation](https://github.com/AntreasAntoniou/DAGAN).
+This is a PyTorch implementation of Data Augmentation GAN (DAGAN), which was first proposed in [this paper](https://arxiv.org/abs/1711.04340) with a [corresponding TensorFlow implementation](https://github.com/AntreasAntoniou/DAGAN).
 
-This repo uses the same generator and discriminator architecture of the original tf implementation, while also including a classifier script for the omniglot dataset to test out the quality of a trained DAGAN.
+This repo uses the same generator and discriminator architecture of the original TF implementation, while also including a classifier script for the omniglot dataset to test out the quality of a trained DAGAN.
 
 ## 2. Background <a name="background"></a>
 
@@ -40,14 +40,14 @@ This PyTorch implementation showed statistically significant improvment on the o
 |----------------------------------------------|-------|-------|-------|-------|-------|
 | <b>Acc. w/o DAGAN</b>                               | 16.4% | 29.0% | 46.5% | 57.8% | 67.1% |
 | <b>Acc. w/ DAGAN</b>                                | 19.2% | 39.4% | 52.0% | 65.3% | 69.5% |
-| <b>Confidence Level = (1 - p_value) from t-test</b> | 97.6% | 99.9% | 97.4% | 97.8% | 60.7% |
+| <b>Confidence level that augmentations are better | 97.6% | 99.9% | 97.4% | 97.8% | 60.7% |
 
 
 ## 4. Training your own DAGAN <a name="train"></a>
 
 The easiest way to train your own DAGAN or augmented omniglot classifier is through Google Colab. The Colab notebooks used to produce the results shown here can be found below:
-	- [train omniglot DAGAN](https://colab.research.google.com/drive/1U-twOEiguyIgiL6h9H6130tF-O_g-b-u)
-	- [train omniglot classifier with DAGAN augmentations](https://colab.research.google.com/drive/1oJggcS6-3x_chbEfahSJCsy19kWBxWeE)
+- [Train omniglot DAGAN](https://colab.research.google.com/drive/1U-twOEiguyIgiL6h9H6130tF-O_g-b-u)
+- [Train omniglot classifier with DAGAN augmentations](https://colab.research.google.com/drive/1oJggcS6-3x_chbEfahSJCsy19kWBxWeE)
 
 Running those notebooks as is should reproduce the results presented in this readme. One of the advantages of PyTorch relative to TensorFlow is the ease of modifying and testing out changes in the training process, particulary to the network architecture. To test out changes, you can fork this repo, make necessary changes, and re-run the colab script using the forked repo.
 
