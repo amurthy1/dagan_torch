@@ -76,7 +76,7 @@ Training a DAGAN requires a slight twist:
     - Train/modify G to increase likelihood D classifies (source, generated target) pairs as real
   - D learns to distinguish real and fake targets for a given source image
   - G learns to produce images that belong to the same class as source, while not being too similar to source (being too similar would provide a simple way for D to recognize fake targets)
-	- Thus, G provides varied images that are somewhat similar to the source, which is our ultimate goal
+  - Thus, G provides varied images that are somewhat similar to the source, which is our ultimate goal
 
 The omniglot DAGAN was trained on all the examples in the first 1200 classes of the dataset. The generator was validated on the next 200 classes by visual inspection. Training was done for 50 epochs, which took 3.3 hours on a Tesla T4 GPU.
 
