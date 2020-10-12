@@ -12,6 +12,9 @@
 3. [Results](#results)
 4. [Training your own DAGAN](#train)
 5. [Technical Details](#details)
+	1. [DAGAN Training Process](#dagan_train)
+	2. [Classifier Training Process](#classifier_train)
+	3. [Architectures](#architectures)
 6. [Acknowledgements](#acknowledgements)
 
 ## 1. Intro <a name="intro"></a>
@@ -30,7 +33,7 @@ Standard data augmentation includes methods such as adding noise to, rotating, o
 
 To measure the quality of the DAGAN, classifiers were trained both with and without DAGAN augmentations to see if there was improvement in classifier accuracy with augmentations. The original paper showed improvement on the omniglot dataset using 5, 10, and 15 images per class to train the classifier. As expected, the fewer samples used, the more impactful the augmentations were.
 
-This PyTorch implementation showed statistically significant improvment on the omniglot dataset with 1-4 samples per class but had negligible gains with 5+ samples per class. Classifier accuracies and statistical significance of improvement can be found below (More details on confidence interval methodology in Technical Details section).
+This PyTorch implementation showed statistically significant improvment on the omniglot dataset with 1-4 samples per class but had negligible gains with 5+ samples per class. Classifier accuracies and statistical significance of improvement can be found below (More details on confidence interval methodology [can be found below](#classifier_train)).
 
 ## 4. Training your own DAGAN <a name="train"></a>
 
@@ -42,7 +45,7 @@ Running those notebooks as is should reproduce the results presented in this rea
 
 ## 5. Technical Details <a name="details"></a>
 
-### 5.1 DAGAN Training process <a name="dagan_train"></a>
+### 5.1 DAGAN Training Process <a name="dagan_train"></a>
 Recall the procedure for training a traditional GAN:
   - Create 2 networks, a generator (G) and a discriminator (D)
   - To train D
@@ -71,7 +74,7 @@ The omniglot DAGAN was trained on all the examples in the first 1200 classes of 
 
 The network was trained using the Adam optimizer and the Improved Wasserstein loss function, which has some useful properties allowing signal to better pass from D to G during the training of G. More details can be found in the [Improved Wasserstein GAN paper](https://arxiv.org/abs/1704.00028).
 
-### 5.2 Omniglot classifier training process
+### 5.2 Omniglot Classifier Training Process <a name="classifier_train"></a>
 
 Omniglot classifiers were trained on classes #1420-1519 (100 classes) of the dataset for 200 epochs. Classifiers were trained with and without augmentations. When trained with augmentations, every other batch was passed through the DAGAN, so the total number of steps was the same in both configurations.
 
@@ -79,7 +82,7 @@ To estimate more robustly the accuracy in each configuration, 10 classifiers wer
 
 This exercise was repeated using (1, 2, 3, 4, 5) samples per class. Training was done using Adam optimizer and standard cross-entropy loss.
 
-### 5.3 Architectures
+### 5.3 Architectures <a name="architectures"></a>
 
 The DAGAN architectures are described in detail in the paper and can also be seen in the PyTorch implementation of the [generator](https://github.com/amurthy1/dagan_torch/blob/master/generator.py) and [discriminator](https://github.com/amurthy1/dagan_torch/blob/master/discriminator.py).
 
@@ -94,8 +97,8 @@ The omniglot classifier uses the [standard PyTorch DenseNet implementation] (htt
 
 - As mentioned earlier, this work was adopted from [this paper](https://arxiv.org/abs/1711.04340) and [this repo](https://github.com/AntreasAntoniou/DAGAN) by A. Antoniou et al.
 
-- The omniglot dataset was originally sourced from [this github repo](https://github.com/brendenlake/omniglot/) by user [brendanlake](https://github.com/brendenlake)
+- The omniglot dataset was originally sourced from [this github repo](https://github.com/brendenlake/omniglot/) by user [brendanlake](https://github.com/brendenlake).
 
-- The PyTorch Wasserstein GAN (WGAN) implementation in this repo was closely adopted from [this repo](https://github.com/EmilienDupont/wgan-gp) by user [EmilienDupont](https://github.com/EmilienDupont/)
+- The PyTorch Wasserstein GAN (WGAN) implementation in this repo was closely adopted from [this repo](https://github.com/EmilienDupont/wgan-gp) by user [EmilienDupont](https://github.com/EmilienDupont/).
 
 
